@@ -1,0 +1,13 @@
+name = "sdlada_mixer"
+description = "Ada 2022 bindings to SDL2_mixer."
+version = "2.5.22"
+
+authors = ["Luke A. Guest"]
+maintainers = ["Luke A. Guest <laguest@archeia.com>"]
+maintainers-logins = ["Lucretia"]
+licenses = "Zlib"
+website = ""
+tags = ["sdl2", "mixer", "audio"]
+
+[[depends-on]]
+  libsdl2_mixer = "^2.0.0"
