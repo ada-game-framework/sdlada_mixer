@@ -10,4 +10,9 @@ website = ""
 tags = ["sdl2", "mixer", "audio"]
 
 [[depends-on]]
+  sdlada = "=2.5.23"
   libsdl2_mixer = "^2.0.0"
+
+[[pins]] # TODO: Remove
+  sdlada = { path = "../sdlada" }
+
