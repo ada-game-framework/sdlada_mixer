@@ -1,9 +1,25 @@
 with "config/sdlada_mixer_config.gpr";
+with "sdlada.gpr";
+
 project SDLAda_Mixer is
-   for Library_Name use "SDLAda_Mixer";
+   type Platform_Type is ("linux", "bsd", "windows", "macosx", "macos_homebrew", "macos_ports", "ios", "android");
+
+   Platform : Platform_Type := external ("SDLADA_MIXER_PLATFORM", "linux");
+
+   Source_Platform_Linker := "";
+
+   case Platform is
+      when "macosx" =>
+         Source_Platform_Linker := "src/link/macosx";
+
+      when others =>
+         Source_Platform_Linker := "src/link/nix";
+   end case;
+
+   for Library_Name use "sdlada_mixer";
    for Library_Version use Project'Library_Name & ".so." & SDLAda_Mixer_Config.Crate_Version;
 
-   for Source_Dirs use ("src/", "config/");
+   for Source_Dirs use ("src/", Source_Platform_Linker, "config/");
    for Object_Dir use "obj/" & SDLAda_Mixer_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Library_Dir use "lib";
@@ -15,7 +31,8 @@ project SDLAda_Mixer is
 
    package Compiler is
       for Default_Switches ("Ada") use SDLAda_Mixer_Config.Ada_Compiler_Switches &
-         ("-gnat2022", "-gnata", "-gnato", "-gnatwa", "-gnaty", "-gnaty-s", "-gnatyO", "-gnatyM120", "-gnatyx");
+         ("-gnat2022", "-gnata", "-gnato", "-gnatwa", "-gnaty", "-gnaty-s", "-gnatyO", "-gnatyM120", "-gnatyx",
+          "-gnatwaJ");
    end Compiler;
 
    package Binder is
